@@ -5,6 +5,7 @@ import urllib
 
 idServ = '1527319'
 resp = urllib.urlopen('http://www.portaltransparencia.gov.br/servidores/Servidor-DetalhaServidor.asp?IdServidor=' + idServ)
+resp2 = urllib.urlopen('http://www.portaltransparencia.gov.br/servidores/Servidor-DetalhaRemuneracao.asp?Op=1&IdServidor=i'+ idServ + '&bInformacaoFinanceira=True')
 html = resp.read()
 bs = BeautifulSoup(html, 'lxml')
 
@@ -23,9 +24,6 @@ print 'CPF: {}'.format(work.strip())
 serv = bs.find_all('td', {'class' : 'colunaValor'})
 work =  serv[2].contents[0]
 print 'Servidor: {}'.format(work.strip())
-
-
-
 
 mat  = bs.find_all('strong')
 work =  mat[0].contents[0]
@@ -80,4 +78,21 @@ print 'Situacao Vinculo {}'.format(work.strip())
 
 jorn  = bs.find_all('strong')
 work = jorn[18].contents[0]
-print 'Jornada de Trabalho: {}'.format(work.strip()) 
+print 'Jornada de Trabalho: {}'.format(work.strip())
+
+
+resp2 = urllib.urlopen('http://www.portaltransparencia.gov.br/servidores/Servidor-DetalhaRemuneracao.asp?Op=1&IdServidor='+ idServ + '&bInformacaoFinanceira=True')
+html2 = resp2.read()
+bs2 = BeautifulSoup(html2, 'lxml')
+
+print '\n[+] REMUNERACAO'
+
+remBas = bs2.find_all('td', {'class' : 'colunaValor'})
+work = remBas[7].contents[0]
+print 'Remuneracao Basica: {}'.format(work.strip())
+
+
+remTotal = bs2.find_all('td', {'class' : 'colunaValor'})
+work = remTotal[18].contents[0]
+print 'Remuneracao Total Apos Deducoes: {}'.format(work.strip())
+
