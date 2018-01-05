@@ -9,6 +9,9 @@ resp2 = urllib.urlopen('http://www.portaltransparencia.gov.br/servidores/Servido
 html = resp.read()
 bs = BeautifulSoup(html, 'lxml')
 
+print resp.code
+print resp2.code
+
 print '\n[INICIANDO BUSCA POR SERVIDOR...]'
 print '[+] HTML Status Code: {} '.format(resp.code)
 
