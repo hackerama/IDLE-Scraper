@@ -3,7 +3,7 @@ import csv
 import urllib
 from bs4 import BeautifulSoup
 
-def worko(fetch, x, y):
+def stripWork(fetch, x, y):
 
     if fetch[x].contents == []:
        return servFeat.append('NULL')
@@ -18,87 +18,72 @@ def parseCivil():
     global servFeat
 
     nome = bs.find_all('td', {'class' : 'colunaValor'})
-    work =  nome[0].contents[0]
-    servFeat.append(work.strip())
+    stripWork(nome, 0, 0)
 
     cpf = bs.find_all('td', {'class' : 'colunaValor'})
-    work = cpf[1].contents[0]
-    servFeat.append(work.strip())
+    stripWork(cpf, 1, 0)
 
     serv = bs.find_all('td', {'class' : 'colunaValor'})
-    work = serv[2].contents[0]
-    servFeat.append(work.strip())
+    stripWork(serv, 2, 0)
     
     mat = bs.find_all('strong')
-    work = mat[0].contents[0]
-    servFeat.append(work.strip())
+    stripWork(mat, 0, 0)
 
     cargo = bs.find_all('strong')
-    work = cargo[1].contents[0]
-    servFeat.append(work.strip())
+    stripWork(cargo, 1, 0)
     
     #orgao origem - lotacao
 
     uorg = bs.find_all('strong')
-    work = uorg[7].contents[0]
-    servFeat.append(work.strip())
+    stripWork(uorg, 7, 0)
 
     orgao = bs.find_all('strong')
-    work = orgao[8].contents[0]
-    servFeat.append(work.strip())
+    stripWork(orgao, 8, 0)
 
     orgaoS = bs.find_all('strong')
-    work = orgaoS[9].contents[0]
-    servFeat.append(work.strip())
+    stripWork(orgaoS, 9, 0)
 
     #local de exercicio
     
     uf = bs.find_all('strong')
-    worko(uf, 11, 0)
+    stripWork(uf, 11, 0)
+
+    uorgx = bs.find_all('strong')
+    stripWork(uorgx, 12, 0)
+
+    orgaox = bs.find_all('strong')
+    stripWork(orgaox, 13, 0)
 
 
-    uorg = bs.find_all('strong')
-    if uorg[12].contents == []:
-        servFeat.append('null')
-    else:    
-        work = uorg[12].contents[0]
-        servFeat.append(work.strip())
-
-    orgao = bs.find_all('strong')
-    work = orgao[13].contents[0]
-    servFeat.append(work.strip())
-
-    orgaoS = bs.find_all('strong')
-    work = orgaoS[14].contents[0]
-    servFeat.append(work.strip())
+    orgaoSx = bs.find_all('strong')
+    stripWork(orgaoSx, 14, 0)
     
     # outras informacoes
 
     reg = bs.find_all('strong')
-    work = reg[15].contents[0]
-    servFeat.append(work.strip())
+    stripWork(reg, 15, 0)
     
     status = bs.find_all('strong')
-    work = status[16].contents[0]
-    servFeat.append(work.strip())
+    stripWork(status, 16, 0)
+
 
     jorn = bs.find_all('strong')
-    work = jorn[18].contents[0]
-    servFeat.append(work.strip())
+    stripWork(jorn, 18, 0)
 
     return servFeat
 
 
 c = csv.writer(open("servcivil.csv", "ab"))
-c.writerow(["Nome","CPF","Servidor","Matricula","Cargo",
-    "O. Origem - UORG","O. Origem - Orgao", "O. Origem - Orgao Superior", 
+c.writerow([
+    "Nome","CPF","Servidor","Matricula","Cargo","O. Origem - UORG",
+    "O. Origem - Orgao", "O. Origem - Orgao Superior", 
     "Local de Exercicio - UF", "Local de Exercicio - UORG", 
     "Local de Exercicio - Orgao","Local de Exercicio - Orgao Superior",
     "Regime Juridico", "Situacao Vinculo", "Jornada de Trabalho"
     ])
 
 
-for idServ in range(1000002, 1000010):
+for idServ in range(1000002, 1000020):
     servFeat = []
     idServ = str(idServ)
     print idServ
@@ -112,7 +97,11 @@ for idServ in range(1000002, 1000010):
         work = serv[2].contents[0]
         if work.strip() == 'Civil':
             parseCivil()
-            c.writerow(servFeat)
+            try:
+                c.writerow(servFeat)
+            except UnicodeEncodeError:
+                c.writerow("ERROR")  #gambiarra
+                continue
             print work.strip()
     
     else:
