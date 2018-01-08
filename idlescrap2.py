@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 def stripWork(fetch, x, y):
     try:    
         if fetch[x].contents == []:
-            return servFeat.append('NULL')
+            return servFeat.append('null')
 
         else:
             work = fetch[x].contents[y]
@@ -93,6 +93,10 @@ def parseMil():
     stripWork(srch2, 4, 0)  #regime
     stripWork(srch2, 5, 0)  #status
     stripWork(srch2, 7, 0)  #jornada
+
+    srch3 = bs2.find_all('td', {'class' : 'colunaValor'})
+    stripWork(srch3, 7, 0) # remuneracao basica 
+    stripWork(srch3, 15, 0) # rem. total apos deducoes
     
     return servFeat
 
