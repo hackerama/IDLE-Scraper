@@ -6,15 +6,15 @@ import urllib
 from bs4 import BeautifulSoup
 
 def stripWork(fetch, x, y):
-    try:    
+#    try:    
         if fetch[x].contents == []:
-            return servFeat.append('null')
+            return servFeat.append('(vazio)')
 
         else:
             work = fetch[x].contents[y]
             servFeat.append(work.strip().encode('utf-8'))
-    except IndexError as e:
-        print e 
+#    except:
+#        servFeat.append('(nao informado)')
 
 def parseCivil():
     
@@ -40,8 +40,35 @@ def parseCivil():
     stripWork(srch2, 18, 0) # jornada
 
     srch3 = bs2.find_all('td', {'class' : 'colunaValor'})
-    stripWork(srch3, 7, 0) # remuneracao basica 
-    stripWork(srch3, 18, 0) # rem. total apos deducoes
+    srch4 = bs2.find_all('td', {'colspan' : '3'})
+    try:  
+        d = srch4[9].contents[0].split(' ')
+        e = srch4[5].contents[0].split(' ')
+        f = srch4[7].contents[0].split(' ')
+        
+        if d[0] == 'Demais': 
+            stripWork(srch3, 7, 0) # remuneracao basica 
+            stripWork(srch3, 21, 0) # remuneracao basica 
+
+        elif e[1] == 'eventual':
+            stripWork(srch3, 7, 0) # remuneracao basica 
+            stripWork(srch3, 18, 0) # rem. total apos deducoes
+        
+        elif f[0] == 'Demais':
+            stripWork(srch3, 7, 0) # remuneracao basica 
+            stripWork(srch3, 16, 0) # rem. total apos deducoes
+        
+        else:
+            stripWork(srch3, 7, 0) # remuneracao basica 
+            stripWork(srch3, 13, 0) # rem. total apos deducoes
+  
+    except:
+        try:    
+            stripWork(srch3, 7, 0) # remuneracao basica 
+            stripWork(srch3, 13, 0) # rem. total apos deducoes
+        except:
+            servFeat.append('(nao informado)')
+            servFeat.append('(nao informado)')
     
     return servFeat
 
@@ -60,14 +87,15 @@ def parseConf():
     stripWork(srch2, 33, 0) # o. origem - uorg 
     stripWork(srch2, 34, 0) # o. origem - orgao
     stripWork(srch2, 35, 0) # o.orgiem - orgao superior
+    
     stripWork(srch2, 37, 0) # l. ex - uf
     stripWork(srch2, 38, 0) # l. ex - uorg
     stripWork(srch2, 39, 0) # l. ex - orgao
     stripWork(srch2, 40, 0) # l. ex - orgao superior
+    
     stripWork(srch2, 41, 0) # regime
     stripWork(srch2, 42, 0) # status
     stripWork(srch2, 44, 0) # jornada
-    
     srch3 = bs2.find_all('td', {'class' : 'colunaValor'})
     stripWork(srch3, 7, 0) # remuneracao basica 
     stripWork(srch3, 18, 0) # rem. total apos deducoes
@@ -100,6 +128,37 @@ def parseMil():
     
     return servFeat
 
+def parseContra():
+    global servFeat
+    srch1 = bs.find_all('td', {'class' : 'colunaValor'})
+    stripWork(srch1, 0, 0)  #nome
+    stripWork(srch1, 1, 0)  #cpf
+    stripWork(srch1, 2, 0)  #servidor
+    
+    srch2 = bs.find_all('strong')
+    stripWork(srch2, 0, 0) #matricula
+    stripWork(srch2, 2, 0) # o. origem - uorg 
+    stripWork(srch2, 3, 0) # o. origem - orgao
+    stripWork(srch2, 4, 0) # o.orgiem - orgao superior
+    
+    servFeat.append("(nao informado)") 
+    servFeat.append("(nao informado)")
+    servFeat.append("(nao informado)") 
+    servFeat.append("(nao informado)")
+    
+    stripWork(srch2, 5, 0) # regime
+    stripWork(srch2, 6, 0) # status
+    stripWork(srch2, 8, 0) # jornada
+    
+    srch3 = bs2.find_all('td', {'class' : 'colunaValor'})
+    try:
+        stripWork(srch3, 7, 0) # remuneracao basica 
+        stripWork(srch3, 18, 0) # rem. total apos deducoes
+    except:
+        servFeat.append('(nao informado)')
+        servFeat.append('(nao informado)')
+
+    return servFeat
 
 c = csv.writer(open("servcivil.csv", "ab"))
 cm = csv.writer(open("servMilitar.csv", "ab"))
@@ -110,15 +169,15 @@ c.writerow([
     "Local de Exercicio - Orgao","Local de Exercicio - Orgao Superior",
     "Regime Juridico", "Situacao Vinculo", "Jornada de Trabalhoi",
     "Remuneracao Basica", "Rem. Total Apos Reducoes"
-	])
+    ])
 
 cm.writerow([
-        "idServ","Nome","CPF","Servidor","Matricula","Posto - Graduacao",
-        "Orgao","Orgao Superior","Regime Juridico","Situacao Vinculo",
-        "Jornada de Trabalho"
-	])
+   "idServ","Nome","CPF","Servidor","Matricula","Posto - Graduacao",
+   "Orgao","Orgao Superior","Regime Juridico","Situacao Vinculo",
+   "Jornada de Trabalho"
+    ])
 
-for idServ in range(1000000, 1000001):
+for idServ in range(1000000, 1000070):
     servFeat = []
     idServ = str(idServ)
     servFeat = [idServ]
@@ -139,7 +198,10 @@ for idServ in range(1000000, 1000001):
         if work == 'Civil':
 
             if cargo[1].contents == []:
-                parseConf()
+                try:
+                    parseConf()
+                except:
+                    parseContra()
             else:
                 parseCivil()
 
