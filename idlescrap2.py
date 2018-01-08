@@ -55,18 +55,18 @@ def parseConf():
     stripWork(srch1, 2, 0) #servidor
     
     srch2 = bs.find_all('strong')
-    stripWork(srch2, 0, 0) #matricula
-    stripWork(srch2, 1, 0) #cargo
-    stripWork(srch2, 7, 0) # o. origem - uorg 
-    stripWork(srch2, 8, 0) # o. origem - orgao
-    stripWork(srch2, 9, 0) # o.orgiem - orgao superior
-    stripWork(srch2, 11, 0) # l. ex - uf
-    stripWork(srch2, 12, 0) # l. ex - uorg
-    stripWork(srch2, 13, 0) # l. ex - orgao
-    stripWork(srch2, 14, 0) # l. ex - orgao superior
-    stripWork(srch2, 15, 0) # regime
-    stripWork(srch2, 16, 0) # status
-    stripWork(srch2, 18, 0) # jornada
+    stripWork(srch2, 26, 0) #matricula
+    stripWork(srch2, 27, 0) #cargo
+    stripWork(srch2, 33, 0) # o. origem - uorg 
+    stripWork(srch2, 34, 0) # o. origem - orgao
+    stripWork(srch2, 35, 0) # o.orgiem - orgao superior
+    stripWork(srch2, 37, 0) # l. ex - uf
+    stripWork(srch2, 38, 0) # l. ex - uorg
+    stripWork(srch2, 39, 0) # l. ex - orgao
+    stripWork(srch2, 40, 0) # l. ex - orgao superior
+    stripWork(srch2, 41, 0) # regime
+    stripWork(srch2, 42, 0) # status
+    stripWork(srch2, 44, 0) # jornada
     
     srch3 = bs2.find_all('td', {'class' : 'colunaValor'})
     stripWork(srch3, 7, 0) # remuneracao basica 
@@ -118,7 +118,7 @@ cm.writerow([
         "Jornada de Trabalho"
 	])
 
-for idServ in range(1000000, 1000020):
+for idServ in range(1000000, 1000001):
     servFeat = []
     idServ = str(idServ)
     servFeat = [idServ]
