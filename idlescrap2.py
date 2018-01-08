@@ -137,6 +137,7 @@ def parseContra():
     
     srch2 = bs.find_all('strong')
     stripWork(srch2, 0, 0) #matricula
+    servFeat.append("(nao informado)") 
     stripWork(srch2, 2, 0) # o. origem - uorg 
     stripWork(srch2, 3, 0) # o. origem - orgao
     stripWork(srch2, 4, 0) # o.orgiem - orgao superior
@@ -201,6 +202,7 @@ for idServ in range(1000000, 1000070):
                 try:
                     parseConf()
                 except:
+                    servFeat = []
                     parseContra()
             else:
                 parseCivil()
