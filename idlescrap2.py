@@ -1,214 +1,147 @@
 #!/usr/bin/python
+#!-*- coding:utf-8 -*-
+
 import csv
 import urllib
 from bs4 import BeautifulSoup
 
 def stripWork(fetch, x, y):
+    try:    
+        if fetch[x].contents == []:
+            return servFeat.append('NULL')
 
-    if fetch[x].contents == []:
-       return servFeat.append('NULL')
-
-    else:
-        work = fetch[x].contents[y]
-        servFeat.append(work.strip())
-
+        else:
+            work = fetch[x].contents[y]
+            servFeat.append(work.strip().encode('utf-8'))
+    except IndexError as e:
+        print e 
 
 def parseCivil():
     
     global servFeat
 
-    nome = bs.find_all('td', {'class' : 'colunaValor'})
-    stripWork(nome, 0, 0)
-
-    cpf = bs.find_all('td', {'class' : 'colunaValor'})
-    stripWork(cpf, 1, 0)
-
-    serv = bs.find_all('td', {'class' : 'colunaValor'})
-    stripWork(serv, 2, 0)
+    srch1 = bs.find_all('td', {'class' : 'colunaValor'})
+    stripWork(srch1, 0, 0) #nome
+    stripWork(srch1, 1, 0) #cpf
+    stripWork(srch1, 2, 0) #servidor
     
-    mat = bs.find_all('strong')
-    stripWork(mat, 0, 0)
+    srch2 = bs.find_all('strong')
+    stripWork(srch2, 0, 0) #matricula
+    stripWork(srch2, 1, 0) #cargo
+    stripWork(srch2, 7, 0) # o. origem - uorg 
+    stripWork(srch2, 8, 0) # o. origem - orgao
+    stripWork(srch2, 9, 0) # o.orgiem - orgao superior
+    stripWork(srch2, 11, 0) # l. ex - uf
+    stripWork(srch2, 12, 0) # l. ex - uorg
+    stripWork(srch2, 13, 0) # l. ex - orgao
+    stripWork(srch2, 14, 0) # l. ex - orgao superior
+    stripWork(srch2, 15, 0) # regime
+    stripWork(srch2, 16, 0) # status
+    stripWork(srch2, 18, 0) # jornada
 
-    cargo = bs.find_all('strong')
-    stripWork(cargo, 1, 0)
+    srch3 = bs2.find_all('td', {'class' : 'colunaValor'})
+    stripWork(srch3, 7, 0) # remuneracao basica 
+    stripWork(srch3, 18, 0) # rem. total apos deducoes
     
-    #orgao origem - lotacao
-
-    uorg = bs.find_all('strong')
-    stripWork(uorg, 7, 0)
-
-    orgao = bs.find_all('strong')
-    stripWork(orgao, 8, 0)
-
-    orgaoS = bs.find_all('strong')
-    stripWork(orgaoS, 9, 0)
-
-    #local de exercicio
-    
-    uf = bs.find_all('strong')
-    stripWork(uf, 11, 0)
-
-    uorgx = bs.find_all('strong')
-    stripWork(uorgx, 12, 0)
-
-    orgaox = bs.find_all('strong')
-    stripWork(orgaox, 13, 0)
-
-
-    orgaoSx = bs.find_all('strong')
-    stripWork(orgaoSx, 14, 0)
-    
-    # outras informacoes
-
-    reg = bs.find_all('strong')
-    stripWork(reg, 15, 0)
-    
-    status = bs.find_all('strong')
-    stripWork(status, 16, 0)
-
-
-    jorn = bs.find_all('strong')
-    stripWork(jorn, 18, 0)
-
     return servFeat
 
 
 def parseConf():
-    
     global servFeat
-
-    nome = bs.find_all('td', {'class' : 'colunaValor'})
-    stripWork(nome, 0, 0)
-
-    cpf = bs.find_all('td', {'class' : 'colunaValor'})
-    stripWork(cpf, 1, 0)
-
-    serv = bs.find_all('td', {'class' : 'colunaValor'})
-    stripWork(serv, 2, 0)
     
-    mat = bs.find_all('strong')
-    stripWork(mat, 26, 0)
-
-    cargo = bs.find_all('strong')
-    stripWork(cargo, 27, 0)
+    srch1 = bs.find_all('td', {'class' : 'colunaValor'})
+    stripWork(srch1, 0, 0) #nome
+    stripWork(srch1, 1, 0) #cpf
+    stripWork(srch1, 2, 0) #servidor
     
-    #orgao origem - lotacao
-
-    uorg = bs.find_all('strong')
-    stripWork(uorg, 33, 0)
-
-    orgao = bs.find_all('strong')
-    stripWork(orgao, 34, 0)
-
-    orgaoS = bs.find_all('strong')
-    stripWork(orgaoS, 35, 0)
-
-    #local de exercicio
+    srch2 = bs.find_all('strong')
+    stripWork(srch2, 0, 0) #matricula
+    stripWork(srch2, 1, 0) #cargo
+    stripWork(srch2, 7, 0) # o. origem - uorg 
+    stripWork(srch2, 8, 0) # o. origem - orgao
+    stripWork(srch2, 9, 0) # o.orgiem - orgao superior
+    stripWork(srch2, 11, 0) # l. ex - uf
+    stripWork(srch2, 12, 0) # l. ex - uorg
+    stripWork(srch2, 13, 0) # l. ex - orgao
+    stripWork(srch2, 14, 0) # l. ex - orgao superior
+    stripWork(srch2, 15, 0) # regime
+    stripWork(srch2, 16, 0) # status
+    stripWork(srch2, 18, 0) # jornada
     
-    uf = bs.find_all('strong')
-    stripWork(uf, 37, 0)
-
-    uorgx = bs.find_all('strong')
-    stripWork(uorgx, 38, 0)
-
-    orgaox = bs.find_all('strong')
-    stripWork(orgaox, 39, 0)
-
-
-    orgaoSx = bs.find_all('strong')
-    stripWork(orgaoSx, 40, 0)
+    srch3 = bs2.find_all('td', {'class' : 'colunaValor'})
+    stripWork(srch3, 7, 0) # remuneracao basica 
+    stripWork(srch3, 18, 0) # rem. total apos deducoes
     
-    # outras informacoes
-
-    reg = bs.find_all('strong')
-    stripWork(reg, 41, 0)
-    
-    status = bs.find_all('strong')
-    stripWork(status, 42, 0)
-
-
-    jorn = bs.find_all('strong')
-    stripWork(jorn, 44, 0)
-
     return servFeat
+
+
 
 def parseMil():
 
     global servFeat
 
-    nome = bs.find_all('td', {'class' : 'colunaValor'})
-    stripWork(nome, 0, 0)
+    srch1 = bs.find_all('td', {'class' : 'colunaValor'})
+    stripWork(srch1, 0, 0)  #nome
+    stripWork(srch1, 1, 0)  #cpf
+    stripWork(srch1, 2, 0)  #servidor
 
-    cpf = bs.find_all('td', {'class' : 'colunaValor'})
-    stripWork(cpf, 1, 0)
-
-    serv = bs.find_all('td', {'class' : 'colunaValor'})
-    stripWork(serv, 2, 0)
-
-    mat = bs.find_all('strong')
-    stripWork(mat, 0, 0)
-
-    posto = bs.find_all('strong')
-    stripWork(posto, 1, 0)
-
-    orgao = bs.find_all('strong')
-    stripWork(orgao, 2, 0)
-
-    orgaoS = bs.find_all('strong')
-    stripWork(orgaoS, 3, 0)
-
-    reg = bs.find_all('strong')
-    stripWork(reg, 4, 0)
-
-    status = bs.find_all('strong')
-    stripWork(status, 5, 0)
-
-    jorn = bs.find_all('strong')
-    stripWork(jorn, 7, 0)
-
+    srch2 = bs.find_all('strong')
+    stripWork(srch2, 0, 0)  #matricula
+    stripWork(srch2, 1, 0)  #posto 
+    stripWork(srch2, 2, 0)  #orgao
+    stripWork(srch2, 3, 0)  #o.superior
+    stripWork(srch2, 4, 0)  #regime
+    stripWork(srch2, 5, 0)  #status
+    stripWork(srch2, 7, 0)  #jornada
+    
     return servFeat
 
 
 c = csv.writer(open("servcivil.csv", "ab"))
 cm = csv.writer(open("servMilitar.csv", "ab"))
 c.writerow([
-    "Nome","CPF","Servidor","Matricula","Cargo","O. Origem - UORG",
-    "O. Origem - Orgao", "O. Origem - Orgao Superior", 
+    "idServ","Nome","CPF","Servidor","Matricula","Cargo",
+    "O. Origem - UORG","O. Origem - Orgao", "O. Origem - Orgao Superior", 
     "Local de Exercicio - UF", "Local de Exercicio - UORG", 
     "Local de Exercicio - Orgao","Local de Exercicio - Orgao Superior",
-    "Regime Juridico", "Situacao Vinculo", "Jornada de Trabalho"
+    "Regime Juridico", "Situacao Vinculo", "Jornada de Trabalhoi",
+    "Remuneracao Basica", "Rem. Total Apos Reducoes"
 	])
 
 cm.writerow([
-    "Nome","CPF","Servidor","Matricula","Posto - Graduacao","Orgao",
-	"Orgao Superior", "Regime Juridico", "Situacao Vinculo", 
-	"Jornada de Trabalho"
+        "idServ","Nome","CPF","Servidor","Matricula","Posto - Graduacao",
+        "Orgao","Orgao Superior","Regime Juridico","Situacao Vinculo",
+        "Jornada de Trabalho"
 	])
 
-for idServ in range(1406910, 1406960):
+for idServ in range(1000000, 1000020):
     servFeat = []
     idServ = str(idServ)
-    print idServ
+    servFeat = [idServ]
+    #print idServ
     resp = urllib.urlopen('http://www.portaltransparencia.gov.br/servidores/Servidor-DetalhaServidor.asp?IdServidor=' + idServ)
     resp2 = urllib.urlopen('http://www.portaltransparencia.gov.br/servidores/Servidor-DetalhaRemuneracao.asp?Op=1&IdServidor=' + idServ + '&bInformacaoFinanceira=True')
     if resp.code == 200:
         html = resp.read()
+        html2 = resp2.read()
         bs = BeautifulSoup(html, 'lxml')
-        print idServ, resp.code
+        bs2 = BeautifulSoup(html2, 'lxml')
         serv = bs.find_all('td', {'class': 'colunaValor'})
         cargo = bs.find_all('strong')
-        work = serv[2].contents[0]
-        if work.strip() == 'Civil':
+        work = serv[2].contents[0].strip()
+        name =  serv[0].contents[0].strip() 
+        print '[+] GOT - idServ: {} | {} | {}'.format(idServ, name, work)
+        
+        if work == 'Civil':
+
             if cargo[1].contents == []:
                 parseConf()
             else:
                 parseCivil()
-            try:
-                c.writerow(servFeat)
-            except UnicodeEncodeError:
-                c.writerow("ERROR")  #gambiarra
-                continue
-            print work.strip()
+
+            c.writerow(servFeat)
+           # print work.strip()
+        
         else: 
             parseMil()
             cm.writerow(servFeat)
