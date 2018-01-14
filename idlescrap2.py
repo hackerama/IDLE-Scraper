@@ -55,15 +55,18 @@ def parseCivil():
             stripWork(srch3, 18, 0) # rem. total apos deducoes
         
         elif f[0] == 'Demais':
+            print 'penis'
             stripWork(srch3, 7, 0) # remuneracao basica 
             stripWork(srch3, 16, 0) # rem. total apos deducoes
         
         else:
+            print 'vagina'
             stripWork(srch3, 7, 0) # remuneracao basica 
             stripWork(srch3, 13, 0) # rem. total apos deducoes
   
     except:
         try:    
+            print 'cuzinho'
             stripWork(srch3, 7, 0) # remuneracao basica 
             stripWork(srch3, 13, 0) # rem. total apos deducoes
         except:
@@ -75,34 +78,118 @@ def parseCivil():
 
 def parseConf():
     global servFeat
-    
     srch1 = bs.find_all('td', {'class' : 'colunaValor'})
     stripWork(srch1, 0, 0) #nome
     stripWork(srch1, 1, 0) #cpf
     stripWork(srch1, 2, 0) #servidor
-    
     srch2 = bs.find_all('strong')
     stripWork(srch2, 26, 0) #matricula
     stripWork(srch2, 27, 0) #cargo
     stripWork(srch2, 33, 0) # o. origem - uorg 
     stripWork(srch2, 34, 0) # o. origem - orgao
     stripWork(srch2, 35, 0) # o.orgiem - orgao superior
-    
     stripWork(srch2, 37, 0) # l. ex - uf
     stripWork(srch2, 38, 0) # l. ex - uorg
     stripWork(srch2, 39, 0) # l. ex - orgao
     stripWork(srch2, 40, 0) # l. ex - orgao superior
-    
     stripWork(srch2, 41, 0) # regime
     stripWork(srch2, 42, 0) # status
     stripWork(srch2, 44, 0) # jornada
     srch3 = bs2.find_all('td', {'class' : 'colunaValor'})
-    stripWork(srch3, 7, 0) # remuneracao basica 
-    stripWork(srch3, 18, 0) # rem. total apos deducoes
-    
+    srch4 = bs2.find_all('td', {'colspan' : '3'})
+    try:  
+        d = srch4[9].contents[0].split(' ')
+        e = srch4[5].contents[0].split(' ')
+        f = srch4[7].contents[0].split(' ')
+        
+        if d[0] == 'Demais': 
+            print 'sefude'
+            stripWork(srch3, 7, 0) # remuneracao basica 
+            stripWork(srch3, 21, 0) # remuneracao basica 
+
+        elif e[1] == 'eventual':
+	    print 'fox'            
+	    stripWork(srch3, 7, 0) # remuneracao basica 
+            stripWork(srch3, 18, 0) # rem. totial apos deducoes
+        
+        elif f[0] == 'Demais':
+	    print 'amarula'            
+            stripWork(srch3, 7, 0) # remuneracao basica 
+            stripWork(srch3, 16, 0) # rem. total apos deducoes
+        
+        else:
+	    print 'suckme'            
+	    stripWork(srch3, 7, 0) # remuneracao basica 
+            stripWork(srch3, 13, 0) # rem. total apos deducoes
+  
+    except:
+        try:    
+            print 'fodasseeee'
+            stripWork(srch3, 7, 0) # remuneracao basica 
+            stripWork(srch3, 13, 0) # rem. total apos deducoes
+        except:
+            servFeat.append('(nao informado)')
+            servFeat.append('(nao informado)')
+
     return servFeat
 
 
+
+def parseVarios():
+    print 'my eggs with salsage'
+    global servFeat
+    srch1 = bs.find_all('td', {'class' : 'colunaValor'})
+    stripWork(srch1, 0, 0) #nome
+    stripWork(srch1, 1, 0) #cpf
+    stripWork(srch1, 2, 0) #servidor
+    srch2 = bs.find_all('strong')
+    stripWork(srch2, 52, 0) #matricula
+    stripWork(srch2, 53, 0) #cargo
+    stripWork(srch2, 59, 0) # o. origem - uorg 
+    stripWork(srch2, 60, 0) # o. origem - orgao
+    stripWork(srch2, 61, 0) # o.orgiem - orgao superior
+    stripWork(srch2, 63, 0) # l. ex - uf
+    stripWork(srch2, 64, 0) # l. ex - uorg
+    stripWork(srch2, 65, 0) # l. ex - orgao
+    stripWork(srch2, 66, 0) # l. ex - orgao superior
+    stripWork(srch2, 67, 0) # regime
+    stripWork(srch2, 68, 0) # status
+    stripWork(srch2, 70, 0) # jornada
+    srch3 = bs2.find_all('td', {'class' : 'colunaValor'})
+    srch4 = bs2.find_all('td', {'colspan' : '3'})
+    try:  
+        d = srch4[9].contents[0].split(' ')
+        e = srch4[5].contents[0].split(' ')
+        f = srch4[7].contents[0].split(' ')
+        
+        if d[0] == 'Demais': 
+            print 'sefude'
+            stripWork(srch3, 7, 0) # remuneracao basica 
+            stripWork(srch3, 21, 0) # remuneracao basica 
+        elif e[1] == 'eventual':
+            stripWork(srch3, 7, 0) # remuneracao basica 
+            stripWork(srch3, 18, 0) # rem. total apos deducoes
+        
+        elif f[0] == 'Demais':
+            print 'penis'
+            stripWork(srch3, 7, 0) # remuneracao basica 
+            stripWork(srch3, 16, 0) # rem. total apos deducoes
+        
+        else:
+            print 'vagina'
+            stripWork(srch3, 7, 0) # remuneracao basica 
+            stripWork(srch3, 13, 0) # rem. total apos deducoes
+  
+    except:
+        try:    
+            print 'cuzinho'
+            stripWork(srch3, 7, 0) # remuneracao basica 
+            stripWork(srch3, 13, 0) # rem. total apos deducoes
+        except:
+            servFeat.append('(nao informado)')
+            servFeat.append('(nao informado)')
+    
+    return servFeat
 
 def parseMil():
 
@@ -200,9 +287,12 @@ for idServ in range(1000000, 1000070):
 
             if cargo[1].contents == []:
                 try:
-                    parseConf()
+                    if len(cargo) > 60:
+                        parseVarios()
+                    else:
+                        parseConf()
                 except:
-                    servFeat = []
+                    servFeat = [idServ]
                     parseContra()
             else:
                 parseCivil()

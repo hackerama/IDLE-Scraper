@@ -4,7 +4,7 @@ import urllib
 from bs4 import BeautifulSoup 
 import sys
 
-resp = urllib.urlopen('http://www.portaldatransparencia.gov.br/servidores/Servidor-DetalhaServidor.asp?IdServidor=1000048')
+resp = urllib.urlopen('http://www.portaldatransparencia.gov.br/servidores/Servidor-DetalhaServidor.asp?IdServidor=1000067')
 html = resp.read()
 bs = BeautifulSoup(html, 'lxml')
 try:
