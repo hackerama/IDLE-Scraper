@@ -26,21 +26,26 @@ def parseCivil():
     stripWork(srch1, 2, 0) #servidor
     
     srch2 = bs.find_all('strong')
-    stripWork(srch2, 0, 0) #matricula
-    stripWork(srch2, 1, 0) #cargo
-    stripWork(srch2, 7, 0) # o. origem - uorg 
-    stripWork(srch2, 8, 0) # o. origem - orgao
-    stripWork(srch2, 9, 0) # o.orgiem - orgao superior
-    stripWork(srch2, 11, 0) # l. ex - uf
-    stripWork(srch2, 12, 0) # l. ex - uorg
-    stripWork(srch2, 13, 0) # l. ex - orgao
-    stripWork(srch2, 14, 0) # l. ex - orgao superior
-    stripWork(srch2, 15, 0) # regime
-    stripWork(srch2, 16, 0) # status
-    stripWork(srch2, 18, 0) # jornada
-    remun()
+    if srch2[2].contents[0] == 'DAS':
+        print 'DASSS'
+        parseDas()    
 
-    return servFeat
+    else:
+        stripWork(srch2, 0, 0) #matricula
+        stripWork(srch2, 1, 0) #cargo
+        stripWork(srch2, 7, 0) # o. origem - uorg 
+        stripWork(srch2, 8, 0) # o. origem - orgao
+        stripWork(srch2, 9, 0) # o.orgiem - orgao superior
+        stripWork(srch2, 11, 0) # l. ex - uf
+        stripWork(srch2, 12, 0) # l. ex - uorg
+        stripWork(srch2, 13, 0) # l. ex - orgao
+        stripWork(srch2, 14, 0) # l. ex - orgao superior
+        stripWork(srch2, 15, 0) # regime
+        stripWork(srch2, 16, 0) # status
+        stripWork(srch2, 18, 0) # jornada
+        remun()
+
+        return servFeat
 
 def parseConf():
     global servFeat
@@ -89,6 +94,30 @@ def parseVarios():
     stripWork(srch2, 68, 0) # status
     stripWork(srch2, 70, 0) # jornada
     remun() 
+    
+    return servFeat
+
+def parseDas():
+    
+    global servFeat
+    srch1 = bs.find_all('td', {'class' : 'colunaValor'})
+    stripWork(srch1, 0, 0) #nome
+    stripWork(srch1, 1, 0) #cpf
+    stripWork(srch1, 2, 0) #servidor
+    srch2 = bs.find_all('strong')
+    stripWork(srch2, 0 , 0) #matricula
+    stripWork(srch2, 3, 0) #cargo
+    stripWork(srch2, 7, 0) # o. origem - uorg 
+    stripWork(srch2, 8, 0) # o. origem - orgao
+    stripWork(srch2, 9, 0) # o.orgiem - orgao superior
+    stripWork(srch2, 6, 0) # l. ex - uf
+    stripWork(srch2, 11, 0) # l. ex - uorg
+    stripWork(srch2, 12, 0) # l. ex - orgao
+    stripWork(srch2, 13, 0) # l. ex - orgao superior
+    stripWork(srch2, 14, 0) # regime
+    stripWork(srch2, 15, 0) # status
+    stripWork(srch2, 17, 0) # jornada
+    remun()
     
     return servFeat
 
@@ -196,7 +225,7 @@ cm.writerow([
    "Jornada de Trabalho"
     ])
 
-for idServ in range(1000000, 1000500):
+for idServ in range(1000232, 1000233):
     servFeat = []
     idServ = str(idServ)
     servFeat = [idServ]
@@ -213,10 +242,12 @@ for idServ in range(1000000, 1000500):
         work = serv[2].contents[0].strip()
         name =  serv[0].contents[0].strip() 
         print '[+] GOT - idServ: {} | {} | {}'.format(idServ, name, work)
-        
+        print cargo[2].contents[0]
         if work == 'Civil':
-
-            if cargo[1].contents == []:
+            if cargo[2].contents[0].startswith('DAS'):
+                print cargo[2].contents[0]
+                parseDas()
+            elif cargo[1].contents == []:
                 try:
                     if len(cargo) > 60:
                         parseVarios()
