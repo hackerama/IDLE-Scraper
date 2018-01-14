@@ -38,43 +38,9 @@ def parseCivil():
     stripWork(srch2, 15, 0) # regime
     stripWork(srch2, 16, 0) # status
     stripWork(srch2, 18, 0) # jornada
+    remun()
 
-    srch3 = bs2.find_all('td', {'class' : 'colunaValor'})
-    srch4 = bs2.find_all('td', {'colspan' : '3'})
-    try:  
-        d = srch4[9].contents[0].split(' ')
-        e = srch4[5].contents[0].split(' ')
-        f = srch4[7].contents[0].split(' ')
-        
-        if d[0] == 'Demais': 
-            stripWork(srch3, 7, 0) # remuneracao basica 
-            stripWork(srch3, 21, 0) # remuneracao basica 
-
-        elif e[1] == 'eventual':
-            stripWork(srch3, 7, 0) # remuneracao basica 
-            stripWork(srch3, 18, 0) # rem. total apos deducoes
-        
-        elif f[0] == 'Demais':
-            print 'penis'
-            stripWork(srch3, 7, 0) # remuneracao basica 
-            stripWork(srch3, 16, 0) # rem. total apos deducoes
-        
-        else:
-            print 'vagina'
-            stripWork(srch3, 7, 0) # remuneracao basica 
-            stripWork(srch3, 13, 0) # rem. total apos deducoes
-  
-    except:
-        try:    
-            print 'cuzinho'
-            stripWork(srch3, 7, 0) # remuneracao basica 
-            stripWork(srch3, 13, 0) # rem. total apos deducoes
-        except:
-            servFeat.append('(nao informado)')
-            servFeat.append('(nao informado)')
-    
     return servFeat
-
 
 def parseConf():
     global servFeat
@@ -97,42 +63,9 @@ def parseConf():
     stripWork(srch2, 44, 0) # jornada
     srch3 = bs2.find_all('td', {'class' : 'colunaValor'})
     srch4 = bs2.find_all('td', {'colspan' : '3'})
-    try:  
-        d = srch4[9].contents[0].split(' ')
-        e = srch4[5].contents[0].split(' ')
-        f = srch4[7].contents[0].split(' ')
-        
-        if d[0] == 'Demais': 
-            print 'sefude'
-            stripWork(srch3, 7, 0) # remuneracao basica 
-            stripWork(srch3, 21, 0) # remuneracao basica 
-
-        elif e[1] == 'eventual':
-	    print 'fox'            
-	    stripWork(srch3, 7, 0) # remuneracao basica 
-            stripWork(srch3, 18, 0) # rem. totial apos deducoes
-        
-        elif f[0] == 'Demais':
-	    print 'amarula'            
-            stripWork(srch3, 7, 0) # remuneracao basica 
-            stripWork(srch3, 16, 0) # rem. total apos deducoes
-        
-        else:
-	    print 'suckme'            
-	    stripWork(srch3, 7, 0) # remuneracao basica 
-            stripWork(srch3, 13, 0) # rem. total apos deducoes
-  
-    except:
-        try:    
-            print 'fodasseeee'
-            stripWork(srch3, 7, 0) # remuneracao basica 
-            stripWork(srch3, 13, 0) # rem. total apos deducoes
-        except:
-            servFeat.append('(nao informado)')
-            servFeat.append('(nao informado)')
+    remun()
 
     return servFeat
-
 
 
 def parseVarios():
@@ -155,8 +88,38 @@ def parseVarios():
     stripWork(srch2, 67, 0) # regime
     stripWork(srch2, 68, 0) # status
     stripWork(srch2, 70, 0) # jornada
+    remun() 
+    
+    return servFeat
+
+def parseMil():
+
+    global servFeat
+
+    srch1 = bs.find_all('td', {'class' : 'colunaValor'})
+    stripWork(srch1, 0, 0)  #nome
+    stripWork(srch1, 1, 0)  #cpf
+    stripWork(srch1, 2, 0)  #servidor
+
+    srch2 = bs.find_all('strong')
+    stripWork(srch2, 0, 0)  #matricula
+    stripWork(srch2, 1, 0)  #posto 
+    stripWork(srch2, 2, 0)  #orgao
+    stripWork(srch2, 3, 0)  #o.superior
+    stripWork(srch2, 4, 0)  #regime
+    stripWork(srch2, 5, 0)  #status
+    stripWork(srch2, 7, 0)  #jornada
+    remun()
+    
+    return servFeat
+
+
+def remun():
     srch3 = bs2.find_all('td', {'class' : 'colunaValor'})
     srch4 = bs2.find_all('td', {'colspan' : '3'})
+    if work == 'Militar':
+        stripWork(srch3, 7, 0) # remuneracao basica 
+        stripWork(srch3, 15, 0) # rem. total apos deducoes
     try:  
         d = srch4[9].contents[0].split(' ')
         e = srch4[5].contents[0].split(' ')
@@ -187,35 +150,10 @@ def parseVarios():
             stripWork(srch3, 13, 0) # rem. total apos deducoes
         except:
             servFeat.append('(nao informado)')
-            servFeat.append('(nao informado)')
-    
-    return servFeat
-
-def parseMil():
-
-    global servFeat
-
-    srch1 = bs.find_all('td', {'class' : 'colunaValor'})
-    stripWork(srch1, 0, 0)  #nome
-    stripWork(srch1, 1, 0)  #cpf
-    stripWork(srch1, 2, 0)  #servidor
-
-    srch2 = bs.find_all('strong')
-    stripWork(srch2, 0, 0)  #matricula
-    stripWork(srch2, 1, 0)  #posto 
-    stripWork(srch2, 2, 0)  #orgao
-    stripWork(srch2, 3, 0)  #o.superior
-    stripWork(srch2, 4, 0)  #regime
-    stripWork(srch2, 5, 0)  #status
-    stripWork(srch2, 7, 0)  #jornada
-
-    srch3 = bs2.find_all('td', {'class' : 'colunaValor'})
-    stripWork(srch3, 7, 0) # remuneracao basica 
-    stripWork(srch3, 15, 0) # rem. total apos deducoes
-    
-    return servFeat
+            servFeat.append('(nao informado)')	
 
 def parseContra():
+    print 'contra'    
     global servFeat
     srch1 = bs.find_all('td', {'class' : 'colunaValor'})
     stripWork(srch1, 0, 0)  #nome
@@ -237,14 +175,7 @@ def parseContra():
     stripWork(srch2, 5, 0) # regime
     stripWork(srch2, 6, 0) # status
     stripWork(srch2, 8, 0) # jornada
-    
-    srch3 = bs2.find_all('td', {'class' : 'colunaValor'})
-    try:
-        stripWork(srch3, 7, 0) # remuneracao basica 
-        stripWork(srch3, 18, 0) # rem. total apos deducoes
-    except:
-        servFeat.append('(nao informado)')
-        servFeat.append('(nao informado)')
+    remun()    
 
     return servFeat
 
@@ -265,7 +196,7 @@ cm.writerow([
    "Jornada de Trabalho"
     ])
 
-for idServ in range(1000000, 1000070):
+for idServ in range(1000000, 1000500):
     servFeat = []
     idServ = str(idServ)
     servFeat = [idServ]
